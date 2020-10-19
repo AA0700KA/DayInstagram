@@ -87,6 +87,7 @@ class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
                     profile_image.loadUserPhoto(mUser.photo)
                 }
             }
+
         } else {
            showToast("No result")
         }
