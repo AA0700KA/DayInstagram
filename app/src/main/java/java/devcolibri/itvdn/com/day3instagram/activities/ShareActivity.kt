@@ -42,6 +42,7 @@ class ShareActivity : BaseActivity(2) {
         mFirebase.currentUserReference().addValueEventListener(ValueEventListenerAdapter {
             mUser = it.getValue(User::class.java)!!
         })
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

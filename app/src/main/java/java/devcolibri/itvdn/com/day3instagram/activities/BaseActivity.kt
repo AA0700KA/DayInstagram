@@ -6,6 +6,7 @@ import android.util.Log
 import kotlinx.android.synthetic.main.activity_profile.*
 import java.devcolibri.itvdn.com.day3instagram.R
 
+
 abstract class BaseActivity(val navNumber : Int) : AppCompatActivity() {
 
     private val TAG = "BaseActivity"
