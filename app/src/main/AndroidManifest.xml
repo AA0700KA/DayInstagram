@@ -42,7 +42,7 @@
                     android:resource="@xml/file_paths"></meta-data>
         </provider>
 
-        <activity android:name=".activities.AddFriendsActivity" />
+        <activity android:name=".activities.add_friends.AddFriendsActivity" />
         <activity android:name=".activities.ProfileSettingsActivity" />
 
     </application>
