@@ -21,10 +21,6 @@ import java.devcolibri.itvdn.com.day3instagram.models.FeedPost
 import java.devcolibri.itvdn.com.day3instagram.models.User
 
 
-fun Context.showToast(text: String, duration: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(this, text, duration).show()
-}
-
 fun ImageView.loadUserPhoto(photoUrl: String?) {
     if (!(context as Activity).isDestroyed) {
         Glide.with(this).load(photoUrl).into(this)
@@ -63,4 +59,8 @@ private fun View.ifNotDestroyed(block: () -> Unit) {
     if (!(context as Activity).isDestroyed) {
         block()
     }
+}
+
+fun Context.showToast(text: String?, duration: Int = Toast.LENGTH_SHORT) {
+    text?.let { Toast.makeText(this, it, duration).show() }
 }

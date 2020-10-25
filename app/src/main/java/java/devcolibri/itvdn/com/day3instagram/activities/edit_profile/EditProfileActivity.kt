@@ -1,24 +1,18 @@
-package java.devcolibri.itvdn.com.day3instagram.activities
+package java.devcolibri.itvdn.com.day3instagram.activities.edit_profile
 
-import android.app.Activity
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
-import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.TextView
-import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.EmailAuthProvider
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import java.devcolibri.itvdn.com.day3instagram.R
+import java.devcolibri.itvdn.com.day3instagram.activities.ViewModelFactory
+import java.devcolibri.itvdn.com.day3instagram.activities.loadUserPhoto
+import java.devcolibri.itvdn.com.day3instagram.activities.showToast
+import java.devcolibri.itvdn.com.day3instagram.activities.toStringOrNull
 import java.devcolibri.itvdn.com.day3instagram.models.User
 import java.devcolibri.itvdn.com.day3instagram.utils.CameraTaker
 import java.devcolibri.itvdn.com.day3instagram.utils.FirebaseHelper
@@ -35,7 +29,7 @@ class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
     private lateinit var mPendingUser: User
     private lateinit var mUser: User
     private lateinit var mCameraTaker: CameraTaker
-    private lateinit var mFirebaseHelper: FirebaseHelper
+    private lateinit var mViewModel: EditProfileViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,11 +51,12 @@ class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
             mCameraTaker.takeCameraPicture()
         }
 
-        mFirebaseHelper = FirebaseHelper(this)
+        mViewModel = ViewModelProviders.of(this, ViewModelFactory())
+            .get(EditProfileViewModel::class.java)
 
-        mFirebaseHelper.currentUserReference()
-            .addListenerForSingleValueEvent(ValueEventListenerAdapter {
-                mUser = it.getValue(User::class.java)!!
+        mViewModel.user.observe(this, Observer {
+            it?.let {
+                mUser = it
                 name_input.setText(mUser.name)
                 username_input.setText(mUser.username)
                 website_input.setText(mUser.website)
@@ -69,7 +64,8 @@ class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
                 email_input.setText(mUser.email)
                 phone_input.setText(mUser.phone?.toString())
                 profile_image.loadUserPhoto(mUser.photo)
-            })
+            }
+        })
 
     }
 
@@ -80,12 +76,8 @@ class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
         if (requestCode == mCameraTaker.TAKE_PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
 
             val imageUri = data!!.data
-            mFirebaseHelper.uploadUserPhoto(imageUri) {
-                val photoUrl = it.downloadUrl.toString()
-                mFirebaseHelper.updateUserPhoto(photoUrl) {
-                    mUser = mUser.copy(photo = photoUrl)
-                    profile_image.loadUserPhoto(mUser.photo)
-                }
+            mViewModel.uploadAndSetUserPhoto(imageUri).addOnFailureListener {
+                showToast(it.message)
             }
 
         } else {
@@ -115,18 +107,12 @@ class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
     }
 
     private fun updateUser(user: User) {
-        val updatesMap = mutableMapOf<String, Any?>()
-        if (user.name != mUser.name) updatesMap["name"] = user.name
-        if (user.username != mUser.username) updatesMap["username"] = user.username
-        if (user.website != mUser.website) updatesMap["website"] = user.website
-        if (user.bio != mUser.bio) updatesMap["bio"] = user.bio
-        if (user.email != mUser.email) updatesMap["email"] = user.email
-        if (user.phone != mUser.phone) updatesMap["phone"] = user.phone
-
-        mFirebaseHelper.updateUser(updatesMap) {
-            showToast("Profile saved")
-            finish()
-        }
+        mViewModel.updateUserProfile(currentUser = mUser, newUser = user)
+            .addOnFailureListener { showToast(it.message) }
+            .addOnSuccessListener {
+                showToast("Profile saved")
+                finish()
+            }
     }
 
     private fun validate(user: User): String? =
@@ -139,12 +125,12 @@ class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
 
     override fun onPasswordConfirm(password: String) {
         if (password.isNotEmpty()) {
-            val credential = EmailAuthProvider.getCredential(mUser.email, password)
-            mFirebaseHelper.reauthenticate(credential) {
-                mFirebaseHelper.updateEmail(mPendingUser.email) {
-                    updateUser(mPendingUser)
-                }
-            }
+            mViewModel.updateEmail(
+                currentEmail = mUser.email,
+                newEmail = mPendingUser.email,
+                password = password)
+                .addOnFailureListener { showToast(it.message) }
+                .addOnSuccessListener { updateUser(mPendingUser) }
         } else {
             showToast("You should be write password")
         }

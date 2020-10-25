@@ -5,22 +5,10 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.google.android.gms.tasks.Tasks
 import kotlinx.android.synthetic.main.activity_add_friends.*
-import kotlinx.android.synthetic.main.add_friends_item.view.*
 import java.devcolibri.itvdn.com.day3instagram.R
-import java.devcolibri.itvdn.com.day3instagram.activities.loadImage
-import java.devcolibri.itvdn.com.day3instagram.activities.setValueTrueOrRemove
-import java.devcolibri.itvdn.com.day3instagram.activities.showToast
-import java.devcolibri.itvdn.com.day3instagram.activities.task
+import java.devcolibri.itvdn.com.day3instagram.activities.*
 import java.devcolibri.itvdn.com.day3instagram.models.User
-import java.devcolibri.itvdn.com.day3instagram.utils.FirebaseHelper
-import java.devcolibri.itvdn.com.day3instagram.utils.TaskSourceOnCompleteListener
-import java.devcolibri.itvdn.com.day3instagram.utils.ValueEventListenerAdapter
 
 class AddFriendsActivity : AppCompatActivity(),
     FriendsAdapter.Listener {
@@ -36,7 +24,9 @@ class AddFriendsActivity : AppCompatActivity(),
 
         mAdapter = FriendsAdapter(this)
 
-        mViewModel = ViewModelProviders.of(this, AddFriendsViewModelFactory())
+        mViewModel = ViewModelProviders.of(this,
+            ViewModelFactory()
+        )
             .get(AddFriendsViewModel::class.java)
 
         back_image.setOnClickListener { finish() }
@@ -71,7 +61,7 @@ class AddFriendsActivity : AppCompatActivity(),
     private fun setFollow(uid: String, follow: Boolean, onSuccess: () -> Unit) {
         mViewModel.setFollow(mUser.uid!!, uid, follow)
             .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener { it.message!! }
+            .addOnFailureListener { showToast(it.message!!) }
     }
 
 }

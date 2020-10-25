@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_profile.*
 import java.devcolibri.itvdn.com.day3instagram.R
 import java.devcolibri.itvdn.com.day3instagram.activities.add_friends.AddFriendsActivity
+import java.devcolibri.itvdn.com.day3instagram.activities.edit_profile.EditProfileActivity
 import java.devcolibri.itvdn.com.day3instagram.models.User
 import java.devcolibri.itvdn.com.day3instagram.utils.FirebaseHelper
 import java.devcolibri.itvdn.com.day3instagram.utils.ValueEventListenerAdapter
