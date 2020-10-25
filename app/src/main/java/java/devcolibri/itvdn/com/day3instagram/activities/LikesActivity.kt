@@ -3,8 +3,9 @@ package java.devcolibri.itvdn.com.day3instagram.activities
 import android.os.Bundle
 import android.util.Log
 import java.devcolibri.itvdn.com.day3instagram.R
+import java.devcolibri.itvdn.com.day3instagram.views.setupBottomNavigation
 
-class LikesActivity : BaseActivity(3) {
+class LikesActivity : BaseActivity() {
 
     private val TAG = "LikesActivity"
 
@@ -12,7 +13,7 @@ class LikesActivity : BaseActivity(3) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        setupBottomNavigation()
+        setupBottomNavigation(3)
         Log.d(TAG, "onCreate: Likes")
     }
 

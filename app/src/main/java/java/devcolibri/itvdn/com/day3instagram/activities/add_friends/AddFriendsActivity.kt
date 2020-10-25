@@ -10,7 +10,7 @@ import java.devcolibri.itvdn.com.day3instagram.R
 import java.devcolibri.itvdn.com.day3instagram.activities.*
 import java.devcolibri.itvdn.com.day3instagram.models.User
 
-class AddFriendsActivity : AppCompatActivity(),
+class AddFriendsActivity : BaseActivity(),
     FriendsAdapter.Listener {
 
     private lateinit var mViewModel: AddFriendsViewModel
@@ -24,10 +24,7 @@ class AddFriendsActivity : AppCompatActivity(),
 
         mAdapter = FriendsAdapter(this)
 
-        mViewModel = ViewModelProviders.of(this,
-            ViewModelFactory()
-        )
-            .get(AddFriendsViewModel::class.java)
+        mViewModel = initViewModel()
 
         back_image.setOnClickListener { finish() }
 

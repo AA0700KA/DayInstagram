@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_register_namepass.*
 import java.devcolibri.itvdn.com.day3instagram.R
 import java.devcolibri.itvdn.com.day3instagram.models.User
 
-class RegisterActivity : AppCompatActivity(), EmailFragment.Listener, NamePassFragment.Listener {
+class RegisterActivity : BaseActivity(), EmailFragment.Listener, NamePassFragment.Listener {
     private val TAG = "RegisterActivity"
 
     private var mEmail: String? = null

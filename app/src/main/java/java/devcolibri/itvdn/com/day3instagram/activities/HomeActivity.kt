@@ -28,8 +28,9 @@ import java.devcolibri.itvdn.com.day3instagram.models.FeedPost
 import java.devcolibri.itvdn.com.day3instagram.models.FeedPostLikes
 import java.devcolibri.itvdn.com.day3instagram.utils.FirebaseHelper
 import java.devcolibri.itvdn.com.day3instagram.utils.ValueEventListenerAdapter
+import java.devcolibri.itvdn.com.day3instagram.views.setupBottomNavigation
 
-class HomeActivity : BaseActivity(0), FeedAdapter.Listener {
+class HomeActivity : BaseActivity(), FeedAdapter.Listener {
 
     private val TAG = "HomeActivity"
     private lateinit var mFirebase : FirebaseHelper
@@ -40,7 +41,7 @@ class HomeActivity : BaseActivity(0), FeedAdapter.Listener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        setupBottomNavigation()
+        setupBottomNavigation(0)
         Log.d(TAG, "onCreate: Home")
 
         mFirebase = FirebaseHelper(this)

@@ -16,7 +16,7 @@ import java.devcolibri.itvdn.com.day3instagram.utils.FirebaseHelper
 import java.devcolibri.itvdn.com.day3instagram.utils.ValueEventListenerAdapter
 import java.util.*
 
-class ShareActivity : BaseActivity(2) {
+class ShareActivity : BaseActivity() {
 
     private val TAG = "ShareActivity"
     private lateinit var mCameraTaker: CameraTaker

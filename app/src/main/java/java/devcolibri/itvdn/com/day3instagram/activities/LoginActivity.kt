@@ -13,7 +13,7 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import java.devcolibri.itvdn.com.day3instagram.R
 
-class LoginActivity : AppCompatActivity(), KeyboardVisibilityEventListener, TextWatcher, View.OnClickListener {
+class LoginActivity : BaseActivity(), KeyboardVisibilityEventListener, TextWatcher, View.OnClickListener {
 
     private lateinit var mAuth: FirebaseAuth
 

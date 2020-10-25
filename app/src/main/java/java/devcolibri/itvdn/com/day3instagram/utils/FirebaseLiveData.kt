@@ -1,4 +1,4 @@
-package java.devcolibri.itvdn.com.day3instagram.activities.add_friends
+package java.devcolibri.itvdn.com.day3instagram.utils
 
 import android.arch.lifecycle.LiveData
 import com.google.firebase.database.DataSnapshot

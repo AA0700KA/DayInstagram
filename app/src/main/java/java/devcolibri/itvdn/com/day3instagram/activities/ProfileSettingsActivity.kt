@@ -6,7 +6,7 @@ import kotlinx.android.synthetic.main.activity_profile_settings.*
 import java.devcolibri.itvdn.com.day3instagram.R
 import java.devcolibri.itvdn.com.day3instagram.utils.FirebaseHelper
 
-class ProfileSettingsActivity : AppCompatActivity() {
+class ProfileSettingsActivity : BaseActivity() {
     private lateinit var mFirebase: FirebaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {

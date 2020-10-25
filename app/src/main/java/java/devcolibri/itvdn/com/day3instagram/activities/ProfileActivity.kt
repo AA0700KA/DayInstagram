@@ -18,8 +18,9 @@ import java.devcolibri.itvdn.com.day3instagram.activities.edit_profile.EditProfi
 import java.devcolibri.itvdn.com.day3instagram.models.User
 import java.devcolibri.itvdn.com.day3instagram.utils.FirebaseHelper
 import java.devcolibri.itvdn.com.day3instagram.utils.ValueEventListenerAdapter
+import java.devcolibri.itvdn.com.day3instagram.views.setupBottomNavigation
 
-class ProfileActivity : BaseActivity(4) {
+class ProfileActivity : BaseActivity() {
 
     private val TAG = "ProfileActivity"
     private lateinit var mFirebase: FirebaseHelper
@@ -28,7 +29,7 @@ class ProfileActivity : BaseActivity(4) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        setupBottomNavigation()
+        setupBottomNavigation(4)
         Log.d(TAG, "onCreate: Profile")
 
         mFirebase = FirebaseHelper(this)

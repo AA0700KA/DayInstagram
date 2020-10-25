@@ -1,26 +1,45 @@
-package java.devcolibri.itvdn.com.day3instagram.activities.edit_profile
+package java.devcolibri.itvdn.com.day3instagram.data.firebase
 
 import android.arch.lifecycle.LiveData
 import android.net.Uri
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.EmailAuthProvider
-import java.devcolibri.itvdn.com.day3instagram.activities.add_friends.toUnit
+import com.google.firebase.auth.FirebaseAuth
 import java.devcolibri.itvdn.com.day3instagram.activities.asUser
 import java.devcolibri.itvdn.com.day3instagram.activities.map
 import java.devcolibri.itvdn.com.day3instagram.activities.task
+import java.devcolibri.itvdn.com.day3instagram.data.UsersRepository
 import java.devcolibri.itvdn.com.day3instagram.models.User
 import java.devcolibri.itvdn.com.day3instagram.utils.*
 
-interface EditProfileRepository {
-    fun getUser(): LiveData<User>
-    fun uploadUserPhoto(localImage: Uri): Task<Uri>
-    fun updateUserPhoto(downloadUrl: Uri): Task<Unit>
-    fun updateEmail(currentEmail: String, newEmail: String, password: String): Task<Unit>
-    fun updateUserProfile(currentUser: User, newUser: User): Task<Unit>
-}
+class FirebaseUsersRepository : UsersRepository {
 
-class FirebaseEditProfileRepository : EditProfileRepository {
+    override fun getUsers(): LiveData<List<User>> =
+        database.child("Users").liveData().map {
+            it.children.map { it.asUser()!! }
+        }
+
+    override fun addFollow(fromUid: String, toUid: String): Task<Unit> =
+        getFollowsRef(fromUid, toUid).setValue(true).toUnit()
+
+    override fun deleteFollow(fromUid: String, toUid: String): Task<Unit> =
+        getFollowsRef(fromUid, toUid).removeValue().toUnit()
+
+    override fun addFollower(fromUid: String, toUid: String): Task<Unit> =
+        getFollowersRef(fromUid, toUid).setValue(true).toUnit()
+
+    override fun deleteFollower(fromUid: String, toUid: String): Task<Unit> =
+        getFollowersRef(fromUid, toUid).removeValue().toUnit()
+
+    private fun getFollowsRef(fromUid: String, toUid: String) =
+        database.child("Users").child(fromUid).child("follows").child(toUid)
+
+    private fun getFollowersRef(fromUid: String, toUid: String) =
+        database.child("Users").child(toUid).child("followers").child(fromUid)
+
+    override fun currentUid() = FirebaseAuth.getInstance().currentUser?.uid
+
     override fun updateUserProfile(currentUser: User, newUser: User): Task<Unit> {
         val updatesMap = mutableMapOf<String, Any?>()
         if (newUser.name != currentUser.name) updatesMap["name"] = newUser.name

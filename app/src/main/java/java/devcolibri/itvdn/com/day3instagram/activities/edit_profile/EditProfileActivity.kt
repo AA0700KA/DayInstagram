@@ -9,10 +9,7 @@ import android.util.Log
 import com.google.firebase.auth.EmailAuthProvider
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import java.devcolibri.itvdn.com.day3instagram.R
-import java.devcolibri.itvdn.com.day3instagram.activities.ViewModelFactory
-import java.devcolibri.itvdn.com.day3instagram.activities.loadUserPhoto
-import java.devcolibri.itvdn.com.day3instagram.activities.showToast
-import java.devcolibri.itvdn.com.day3instagram.activities.toStringOrNull
+import java.devcolibri.itvdn.com.day3instagram.activities.*
 import java.devcolibri.itvdn.com.day3instagram.models.User
 import java.devcolibri.itvdn.com.day3instagram.utils.CameraTaker
 import java.devcolibri.itvdn.com.day3instagram.utils.FirebaseHelper
@@ -22,7 +19,7 @@ import java.devcolibri.itvdn.com.day3instagram.views.PasswordDialog
 
 
 
-class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
+class EditProfileActivity : BaseActivity(), PasswordDialog.Listener {
 
     private val TAG = "EditProfileActivity"
 
@@ -51,8 +48,7 @@ class EditProfileActivity : AppCompatActivity(), PasswordDialog.Listener {
             mCameraTaker.takeCameraPicture()
         }
 
-        mViewModel = ViewModelProviders.of(this, ViewModelFactory())
-            .get(EditProfileViewModel::class.java)
+        mViewModel = initViewModel()
 
         mViewModel.user.observe(this, Observer {
             it?.let {

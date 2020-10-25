@@ -3,22 +3,27 @@ package java.devcolibri.itvdn.com.day3instagram.activities.edit_profile
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import android.net.Uri
+import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.Task
+import java.devcolibri.itvdn.com.day3instagram.data.UsersRepository
 import java.devcolibri.itvdn.com.day3instagram.models.User
 
-class EditProfileViewModel(private val repository: EditProfileRepository) : ViewModel() {
-    val user: LiveData<User> = repository.getUser()
+class EditProfileViewModel(private val onFailureListener: OnFailureListener,
+                           private val usersRepo: UsersRepository
+) : ViewModel() {
+    val user: LiveData<User> = usersRepo.getUser()
 
     fun uploadAndSetUserPhoto(localImage: Uri): Task<Unit> =
-        repository.uploadUserPhoto(localImage).onSuccessTask { downloadUrl ->
-            repository.updateUserPhoto(downloadUrl!!)
-        }
+        usersRepo.uploadUserPhoto(localImage).onSuccessTask { downloadUrl ->
+            usersRepo.updateUserPhoto(downloadUrl!!)
+        }.addOnFailureListener(onFailureListener)
 
     fun updateEmail(currentEmail: String, newEmail: String, password: String): Task<Unit> =
-        repository.updateEmail(currentEmail = currentEmail, newEmail = newEmail,
-            password = password)
+        usersRepo.updateEmail(currentEmail = currentEmail, newEmail = newEmail,
+            password = password).addOnFailureListener(onFailureListener)
 
     fun updateUserProfile(currentUser: User, newUser: User): Task<Unit> =
-        repository.updateUserProfile(currentUser = currentUser, newUser = newUser)
+        usersRepo.updateUserProfile(currentUser = currentUser, newUser = newUser)
+            .addOnFailureListener(onFailureListener)
 
 }
