@@ -21,6 +21,7 @@ import java.devcolibri.itvdn.com.day3instagram.common.ValueEventListenerAdapter
 import java.devcolibri.itvdn.com.day3instagram.screens.common.BaseActivity
 import java.devcolibri.itvdn.com.day3instagram.screens.common.loadUserPhoto
 import java.devcolibri.itvdn.com.day3instagram.screens.common.setupBottomNavigation
+import java.devcolibri.itvdn.com.day3instagram.screens.profilesettings.ProfileSettingsActivity
 
 class ProfileActivity : BaseActivity() {
 

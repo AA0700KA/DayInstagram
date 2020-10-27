@@ -16,7 +16,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
              android:largeHeap="true">
-        <activity android:name=".screens.HomeActivity">
+        <activity android:name=".screens.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -43,7 +43,7 @@
         </provider>
 
         <activity android:name=".screens.add_friends.AddFriendsActivity" />
-        <activity android:name=".screens.ProfileSettingsActivity" />
+        <activity android:name=".screens.profilesettings.ProfileSettingsActivity" />
 
     </application>
 

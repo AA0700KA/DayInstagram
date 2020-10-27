@@ -19,6 +19,7 @@ import java.devcolibri.itvdn.com.day3instagram.R
 import java.devcolibri.itvdn.com.day3instagram.models.User
 import java.devcolibri.itvdn.com.day3instagram.screens.common.BaseActivity
 import java.devcolibri.itvdn.com.day3instagram.screens.common.showToast
+import java.devcolibri.itvdn.com.day3instagram.screens.home.HomeActivity
 
 class RegisterActivity : BaseActivity(), EmailFragment.Listener, NamePassFragment.Listener {
     private val TAG = "RegisterActivity"

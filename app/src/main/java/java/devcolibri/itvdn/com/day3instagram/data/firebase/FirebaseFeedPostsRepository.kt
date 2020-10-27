@@ -1,5 +1,6 @@
 package java.devcolibri.itvdn.com.day3instagram.data.firebase
 
+import android.arch.lifecycle.LiveData
 import com.google.android.gms.tasks.Task
 import java.devcolibri.itvdn.com.day3instagram.common.task
 import java.devcolibri.itvdn.com.day3instagram.data.FeedPostsRepository
@@ -7,8 +8,34 @@ import java.devcolibri.itvdn.com.day3instagram.common.TaskSourceOnCompleteListen
 import java.devcolibri.itvdn.com.day3instagram.common.ValueEventListenerAdapter
 import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.database
 import java.devcolibri.itvdn.com.day3instagram.common.toUnit
+import java.devcolibri.itvdn.com.day3instagram.data.common.map
+import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.FirebaseLiveData
+import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.asFeedPost
+import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.setValueTrueOrRemove
+import java.devcolibri.itvdn.com.day3instagram.models.FeedPost
+import java.devcolibri.itvdn.com.day3instagram.models.FeedPostLike
 
 class FirebaseFeedPostsRepository: FeedPostsRepository {
+
+    override fun getLikes(postId: String): LiveData<List<FeedPostLike>> =
+        FirebaseLiveData(database.child("likes").child(postId)).map {
+            it.children.map { FeedPostLike(it.key) }
+        }
+
+    override fun toggleLike(postId: String, uid: String): Task<Unit> {
+        val reference = database.child("likes").child(postId).child(uid)
+        return task { taskSource ->
+            reference.addListenerForSingleValueEvent(ValueEventListenerAdapter {
+                reference.setValueTrueOrRemove(!it.exists())
+                taskSource.setResult(Unit)
+            })
+        }
+    }
+
+    override fun getFeedPosts(uid: String): LiveData<List<FeedPost>> =
+        FirebaseLiveData(database.child("feed-posts").child(uid)).map {
+            it.children.map { it.asFeedPost()!! }
+        }
 
     override fun copyFeedPosts(postsAuthorUid: String, uid: String): Task<Unit> =
         task { taskSource ->

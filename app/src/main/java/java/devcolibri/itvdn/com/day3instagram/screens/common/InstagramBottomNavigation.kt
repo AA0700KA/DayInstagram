@@ -10,6 +10,7 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
 import kotlinx.android.synthetic.main.activity_home.*
 import java.devcolibri.itvdn.com.day3instagram.R
 import java.devcolibri.itvdn.com.day3instagram.screens.*
+import java.devcolibri.itvdn.com.day3instagram.screens.home.HomeActivity
 
 class InstagramBottomNavigation(private val bnv: BottomNavigationViewEx,
                                 private val navNumber: Int,

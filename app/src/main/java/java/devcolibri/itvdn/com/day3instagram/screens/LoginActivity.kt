@@ -12,6 +12,7 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventList
 import java.devcolibri.itvdn.com.day3instagram.R
 import java.devcolibri.itvdn.com.day3instagram.screens.common.BaseActivity
 import java.devcolibri.itvdn.com.day3instagram.screens.common.showToast
+import java.devcolibri.itvdn.com.day3instagram.screens.home.HomeActivity
 
 class LoginActivity : BaseActivity(), KeyboardVisibilityEventListener, TextWatcher, View.OnClickListener {
 
