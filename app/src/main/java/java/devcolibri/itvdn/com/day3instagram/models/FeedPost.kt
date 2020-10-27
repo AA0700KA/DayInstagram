@@ -2,7 +2,7 @@ package java.devcolibri.itvdn.com.day3instagram.models
 
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.ServerValue
-import java.devcolibri.itvdn.com.day3instagram.activities.Comment
+import java.devcolibri.itvdn.com.day3instagram.screens.Comment
 import java.util.*
 
 data class FeedPost(val uid: String = "", val username: String = "",

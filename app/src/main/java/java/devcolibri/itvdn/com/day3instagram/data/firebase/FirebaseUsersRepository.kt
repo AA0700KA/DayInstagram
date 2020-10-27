@@ -6,12 +6,16 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import java.devcolibri.itvdn.com.day3instagram.activities.asUser
-import java.devcolibri.itvdn.com.day3instagram.activities.map
-import java.devcolibri.itvdn.com.day3instagram.activities.task
+import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.asUser
+import java.devcolibri.itvdn.com.day3instagram.data.common.map
+import java.devcolibri.itvdn.com.day3instagram.common.task
+import java.devcolibri.itvdn.com.day3instagram.common.toUnit
 import java.devcolibri.itvdn.com.day3instagram.data.UsersRepository
+import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.liveData
+import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.auth
+import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.database
+import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.storage
 import java.devcolibri.itvdn.com.day3instagram.models.User
-import java.devcolibri.itvdn.com.day3instagram.utils.*
 
 class FirebaseUsersRepository : UsersRepository {
 
