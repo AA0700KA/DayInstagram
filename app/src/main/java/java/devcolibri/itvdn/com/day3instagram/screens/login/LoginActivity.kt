@@ -1,5 +1,6 @@
-package java.devcolibri.itvdn.com.day3instagram.screens
+package java.devcolibri.itvdn.com.day3instagram.screens.login
 
+import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -10,13 +11,16 @@ import kotlinx.android.synthetic.main.activity_login.*
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import java.devcolibri.itvdn.com.day3instagram.R
+import java.devcolibri.itvdn.com.day3instagram.screens.register.RegisterActivity
 import java.devcolibri.itvdn.com.day3instagram.screens.common.BaseActivity
+import java.devcolibri.itvdn.com.day3instagram.screens.common.setupAuthGuard
 import java.devcolibri.itvdn.com.day3instagram.screens.common.showToast
 import java.devcolibri.itvdn.com.day3instagram.screens.home.HomeActivity
 
 class LoginActivity : BaseActivity(), KeyboardVisibilityEventListener, TextWatcher, View.OnClickListener {
 
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var mViewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,33 +33,31 @@ class LoginActivity : BaseActivity(), KeyboardVisibilityEventListener, TextWatch
         login_btn.setOnClickListener(this)
         create_account_text.setOnClickListener(this)
 
-        mAuth = FirebaseAuth.getInstance()
+        setupAuthGuard {
+            mViewModel = initViewModel()
+            mViewModel.goToHomeScreen.observe(this, Observer {
+                startActivity(Intent(this, HomeActivity::class.java))
+                finish()
+            })
+            mViewModel.goToRegisterScreen.observe(this, Observer {
+                startActivity(Intent(this, RegisterActivity::class.java))
+            })
+            mAuth = FirebaseAuth.getInstance()
+        }
+
     }
 
     override fun onClick(view: View) {
-        when(view.id) {
-            R.id.login_btn -> {
-                val email = email_input.text.toString()
-                val password = password_input.text.toString()
-                if (validate(email, password)) {
-                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener{
-                        if (it.isSuccessful) {
-                            startActivity(Intent(this, HomeActivity::class.java))
-                            finish()
-                        }
-                    }
-                } else {
-                    showToast("Please enter email and password")
-                }
-            }
-            R.id.create_account_text -> {
-                startActivity(Intent(this, RegisterActivity::class.java))
-            }
+        when (view.id) {
+            R.id.login_btn ->
+                mViewModel.onLoginClick(
+                    email = email_input.text.toString(),
+                    password = password_input.text.toString()
+                )
+            R.id.create_account_text -> mViewModel.onRegisterClick()
+
         }
     }
-
-    private fun validate(email: String, password: String) =
-        email.isNotEmpty() && password.isNotEmpty()
 
     override fun onVisibilityChanged(isKeyboardOpen: Boolean) {
         if (isKeyboardOpen) {
@@ -65,6 +67,10 @@ class LoginActivity : BaseActivity(), KeyboardVisibilityEventListener, TextWatch
             scroll_view.scrollTo(0, scroll_view.top)
             create_account_text.visibility = View.VISIBLE
         }
+    }
+
+    companion object {
+        const val TAG = "LoginActivity"
     }
 
     override fun afterTextChanged(s: Editable?) {

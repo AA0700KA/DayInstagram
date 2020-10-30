@@ -2,4 +2,8 @@
     <string name="app_name">DayInstagram</string>
     <string name="create_account">Don\'t have an account? <b>Sign up.</b></string>
     <string name="please_enter_password">Please enter your password</string>
+    <string name="please_enter_email_and_password">Incorrect login or password!!!</string>
+    <string name="this_email_already_exists">Email already exists</string>
+    <string name="please_enter_email">Please Etenr Email</string>
+    <string name="please_enter_fullname_and_password">Please enter full name and password</string>
 </resources>

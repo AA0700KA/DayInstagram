@@ -5,7 +5,7 @@ import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.android.gms.tasks.Tasks
 
 
-fun Task<Void>.toUnit(): Task<Unit> =
+fun Task<*>.toUnit(): Task<Unit> =
     onSuccessTask { Tasks.forResult(Unit) }
 
 fun <T> task(block: (TaskCompletionSource<T>) -> Unit): Task<T> {

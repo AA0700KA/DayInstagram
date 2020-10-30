@@ -7,7 +7,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import java.devcolibri.itvdn.com.day3instagram.screens.LoginActivity
+import java.devcolibri.itvdn.com.day3instagram.screens.login.LoginActivity
 
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -31,9 +31,8 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     protected inline fun <reified T : ViewModel> initViewModel(): T =
-        ViewModelProviders.of(this,
-            ViewModelFactory(commonViewModel)
-        ).get(T::class.java)
+        ViewModelProviders.of(this, ViewModelFactory(application, commonViewModel,
+            commonViewModel)).get(T::class.java)
 
     fun goToLogin() {
         startActivity(Intent(this, LoginActivity::class.java))

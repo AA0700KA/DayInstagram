@@ -49,7 +49,7 @@ class EditProfileActivity : BaseActivity(), PasswordDialog.Listener {
                 website_input.setText(mUser.website)
                 bio_input.setText(mUser.bio)
                 email_input.setText(mUser.email)
-                phone_input.setText(mUser.phone?.toString())
+                phone_input.setText(mUser.phone)
                 profile_image.loadUserPhoto(mUser.photo)
             }
         })
@@ -76,10 +76,10 @@ class EditProfileActivity : BaseActivity(), PasswordDialog.Listener {
         mPendingUser = User(
             name = name_input.text.toString(),
             username = username_input.text.toString(),
-            website = website_input.text.toStringOrNull(),
-            bio = bio_input.text.toStringOrNull(),
+            website = website_input.text.toString(),
+            bio = bio_input.text.toString(),
             email = email_input.text.toString(),
-            phone = phone_input.text.toStringOrNull()
+            phone = phone_input.text.toString()
         )
         val error = validate(mPendingUser)
         if (error == null) {

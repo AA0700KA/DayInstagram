@@ -9,8 +9,11 @@ import android.util.Log
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
 import kotlinx.android.synthetic.main.activity_home.*
 import java.devcolibri.itvdn.com.day3instagram.R
-import java.devcolibri.itvdn.com.day3instagram.screens.*
 import java.devcolibri.itvdn.com.day3instagram.screens.home.HomeActivity
+import java.devcolibri.itvdn.com.day3instagram.screens.likes.LikesActivity
+import java.devcolibri.itvdn.com.day3instagram.screens.profile.ProfileActivity
+import java.devcolibri.itvdn.com.day3instagram.screens.search.SearchActivity
+import java.devcolibri.itvdn.com.day3instagram.screens.share.ShareActivity
 
 class InstagramBottomNavigation(private val bnv: BottomNavigationViewEx,
                                 private val navNumber: Int,

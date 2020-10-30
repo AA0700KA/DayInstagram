@@ -6,15 +6,12 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.asUser
 import java.devcolibri.itvdn.com.day3instagram.data.common.map
 import java.devcolibri.itvdn.com.day3instagram.common.task
 import java.devcolibri.itvdn.com.day3instagram.common.toUnit
 import java.devcolibri.itvdn.com.day3instagram.data.UsersRepository
-import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.liveData
-import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.auth
-import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.database
-import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.storage
+import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.*
+import java.devcolibri.itvdn.com.day3instagram.models.FeedPost
 import java.devcolibri.itvdn.com.day3instagram.models.User
 
 class FirebaseUsersRepository : UsersRepository {
@@ -82,6 +79,42 @@ class FirebaseUsersRepository : UsersRepository {
     override fun getUser(): LiveData<User> =
         database.child("Users").child(currentUid()!!).liveData().map {
             it.asUser()!!
+        }
+
+    override fun createFeedPost(uid: String, feedPost: FeedPost): Task<Unit> =
+        database.child("feed-posts").child(uid)
+            .push().setValue(feedPost).toUnit()
+
+    override fun setUserImage(uid: String, downloadUri: Uri): Task<Unit> =
+        database.child("images").child(uid).push()
+            .setValue(downloadUri.toString()).toUnit()
+
+    override fun uploadUserImage(uid: String, imageUri: Uri): Task<Uri> =
+        task { taskSource ->
+            storage.child("Users").child(uid).child("images")
+                .child(imageUri.lastPathSegment).putFile(imageUri).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        taskSource.setResult(it.result.downloadUrl)
+                    } else {
+                        taskSource.setException(it.exception!!)
+                    }
+                }
+        }
+
+    override fun createUser(user: User, password: String): Task<Unit> =
+        auth.createUserWithEmailAndPassword(user.email, password).onSuccessTask {
+            database.child("Users").child(it!!.user.uid).setValue(user)
+        }.toUnit()
+
+    override fun isUserExistsForEmail(email: String): Task<Boolean> =
+        auth.fetchSignInMethodsForEmail(email).onSuccessTask {
+            val signInMethods = it?.signInMethods ?: emptyList<String>()
+            Tasks.forResult(signInMethods.isNotEmpty())
+        }
+
+    override fun getImages(uid: String): LiveData<List<String>> =
+        FirebaseLiveData(database.child("images").child(uid)).map {
+            it.children.map { it.getValue(String::class.java)!! }
         }
 
 }
