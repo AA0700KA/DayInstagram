@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_home.*
 import java.devcolibri.itvdn.com.day3instagram.R
+import java.devcolibri.itvdn.com.day3instagram.screens.comments.CommentsActivity
 import java.devcolibri.itvdn.com.day3instagram.screens.common.*
 
 class HomeActivity : BaseActivity(), FeedAdapter.Listener {
@@ -34,10 +35,20 @@ class HomeActivity : BaseActivity(), FeedAdapter.Listener {
                     mAdapter.updatePosts(it)
                 }
             })
+            mViewModel.goToCommentsScreen.observe(this, Observer {
+                it?.let { postId ->
+                    CommentsActivity.start(this, postId)
+                }
+            })
         }
 
 
 
+    }
+
+
+    override fun openComments(postId: String) {
+        mViewModel.openComments(postId)
     }
 
     override fun toggleLike(postId: String) {

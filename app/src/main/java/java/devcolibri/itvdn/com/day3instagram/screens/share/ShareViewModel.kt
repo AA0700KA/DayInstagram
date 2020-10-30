@@ -7,11 +7,12 @@ import com.google.android.gms.tasks.Tasks
 import java.devcolibri.itvdn.com.day3instagram.data.UsersRepository
 import java.devcolibri.itvdn.com.day3instagram.models.FeedPost
 import java.devcolibri.itvdn.com.day3instagram.models.User
+import java.devcolibri.itvdn.com.day3instagram.screens.common.BaseViewModel
 
 
 class ShareViewModel(private val usersRepo: UsersRepository,
-                     private val onFailureListener: OnFailureListener
-) : ViewModel() {
+                     onFailureListener: OnFailureListener
+) : BaseViewModel(onFailureListener) {
     val user = usersRepo.getUser()
 
     fun share(user: User, imageUri: Uri?, caption: String) {

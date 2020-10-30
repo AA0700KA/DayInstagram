@@ -18,6 +18,7 @@ import java.devcolibri.itvdn.com.day3instagram.R
 import java.devcolibri.itvdn.com.day3instagram.models.FeedPost
 import java.devcolibri.itvdn.com.day3instagram.models.FeedPostLikes
 import java.devcolibri.itvdn.com.day3instagram.screens.common.loadImage
+import java.devcolibri.itvdn.com.day3instagram.screens.common.setCaptionText
 import java.devcolibri.itvdn.com.day3instagram.screens.common.showToast
 
 class FeedAdapter(private val listener: Listener)
@@ -32,6 +33,7 @@ class FeedAdapter(private val listener: Listener)
     interface Listener {
         fun toggleLike(postId: String)
         fun loadLikes(postId: String, position: Int)
+        fun openComments(postId: String)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -70,6 +72,7 @@ class FeedAdapter(private val listener: Listener)
             view.like_image.setImageResource(
                 if (likes.likedByUser) R.drawable.ic_likes_active
                 else R.drawable.ic_likes_border)
+            view.comment_image.setOnClickListener { listener.openComments(post.id) }
             listener.loadLikes(post.id, position)
         }
 
@@ -99,23 +102,6 @@ class FeedAdapter(private val listener: Listener)
         notifyDataSetChanged()
     }
 
-    private fun TextView.setCaptionText(username: String, caption: String) {
-        val usernameSpannable = SpannableString(username)
-        usernameSpannable.setSpan(
-            StyleSpan(Typeface.BOLD), 0, usernameSpannable.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        usernameSpannable.setSpan(object: ClickableSpan() {
-            override fun onClick(widget: View) {
-                widget.context.showToast("Username is clicked")
-            }
-            override fun updateDrawState(ds: TextPaint?) { }
-        }, 0, usernameSpannable.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        text = SpannableStringBuilder().append(usernameSpannable).append(" ")
-            .append(caption)
-        movementMethod = LinkMovementMethod.getInstance()
-    }
 
     override fun getItemCount() = posts.size
 

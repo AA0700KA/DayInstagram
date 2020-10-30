@@ -6,4 +6,8 @@
     <string name="this_email_already_exists">Email already exists</string>
     <string name="please_enter_email">Please Etenr Email</string>
     <string name="please_enter_fullname_and_password">Please enter full name and password</string>
+    <string name="comments">Comments</string>
+    <string name="post">Post</string>
+    <string name="add_a_comment">Add a comment…</string>
+    <string name="username_is_clicked">Username is Clicked</string>
 </resources>

@@ -9,6 +9,7 @@ import java.devcolibri.itvdn.com.day3instagram.screens.add_friends.AddFriendsVie
 import java.devcolibri.itvdn.com.day3instagram.screens.edit_profile.EditProfileViewModel
 import java.devcolibri.itvdn.com.day3instagram.data.firebase.FirebaseFeedPostsRepository
 import java.devcolibri.itvdn.com.day3instagram.data.firebase.FirebaseUsersRepository
+import java.devcolibri.itvdn.com.day3instagram.screens.comments.CommentsViewModel
 import java.devcolibri.itvdn.com.day3instagram.screens.home.HomeViewModel
 import java.devcolibri.itvdn.com.day3instagram.screens.login.LoginViewModel
 import java.devcolibri.itvdn.com.day3instagram.screens.profile.ProfileViewModel
@@ -34,15 +35,17 @@ class ViewModelFactory(private val app: Application,
         } else if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
             return HomeViewModel(onFailureListener, feedPostsRepo) as T
         } else if (modelClass.isAssignableFrom(ProfileSettingsViewModel::class.java)) {
-            return ProfileSettingsViewModel(authManager) as T
+            return ProfileSettingsViewModel(authManager, onFailureListener) as T
         } else if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             return LoginViewModel(authManager, app, commonViewModel, onFailureListener) as T
         } else if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
-            return ProfileViewModel(usersRepo) as T
+            return ProfileViewModel(usersRepo, onFailureListener) as T
         } else if (modelClass.isAssignableFrom(RegisterViewModel::class.java)) {
-            return RegisterViewModel(commonViewModel, app, usersRepo) as T
+            return RegisterViewModel(commonViewModel, app, usersRepo, onFailureListener) as T
         } else if (modelClass.isAssignableFrom(ShareViewModel::class.java)) {
             return ShareViewModel(usersRepo, onFailureListener) as T
+        } else if (modelClass.isAssignableFrom(CommentsViewModel::class.java)) {
+            return CommentsViewModel(feedPostsRepo, usersRepo, onFailureListener) as T
         } else {
             error("Unknown view model class $modelClass")
         }

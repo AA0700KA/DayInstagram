@@ -7,13 +7,14 @@ import com.google.android.gms.tasks.OnFailureListener
 import java.devcolibri.itvdn.com.day3instagram.R
 import java.devcolibri.itvdn.com.day3instagram.common.AuthManager
 import java.devcolibri.itvdn.com.day3instagram.common.SingleLiveEvent
+import java.devcolibri.itvdn.com.day3instagram.screens.common.BaseViewModel
 import java.devcolibri.itvdn.com.day3instagram.screens.common.CommonViewModel
 
 class LoginViewModel(private val authManager: AuthManager,
                      private val app: Application,
                      private val commonViewModel: CommonViewModel,
-                     private val onFailureListener: OnFailureListener
-): ViewModel() {
+                     onFailureListener: OnFailureListener
+): BaseViewModel(onFailureListener) {
     private val _goToHomeScreen = SingleLiveEvent<Unit>()
     val goToHomeScreen: LiveData<Unit> = _goToHomeScreen
     private val _goToRegisterScreen = SingleLiveEvent<Unit>()

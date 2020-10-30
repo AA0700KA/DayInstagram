@@ -10,11 +10,12 @@ import java.devcolibri.itvdn.com.day3instagram.data.common.map
 import java.devcolibri.itvdn.com.day3instagram.data.FeedPostsRepository
 import java.devcolibri.itvdn.com.day3instagram.data.UsersRepository
 import java.devcolibri.itvdn.com.day3instagram.models.User
+import java.devcolibri.itvdn.com.day3instagram.screens.common.BaseViewModel
 
-class AddFriendsViewModel(private val onFailureListener: OnFailureListener,
+class AddFriendsViewModel(onFailureListener: OnFailureListener,
                           private val usersRepo: UsersRepository,
                           private val feedPostsRepo: FeedPostsRepository
-) : ViewModel() {
+) : BaseViewModel(onFailureListener) {
 
     val userAndFriends: LiveData<Pair<User, List<User>>> =
         usersRepo.getUsers().map { allUsers ->

@@ -31,6 +31,7 @@
         <activity android:name=".screens.edit_profile.EditProfileActivity" />
         <activity android:name=".screens.login.LoginActivity" android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name=".screens.register.RegisterActivity" />
+        <activity android:name=".screens.comments.CommentsActivity" />
 
         <provider
                 android:name="android.support.v4.content.FileProvider"

@@ -6,16 +6,22 @@ import java.devcolibri.itvdn.com.day3instagram.common.task
 import java.devcolibri.itvdn.com.day3instagram.data.FeedPostsRepository
 import java.devcolibri.itvdn.com.day3instagram.common.TaskSourceOnCompleteListener
 import java.devcolibri.itvdn.com.day3instagram.common.ValueEventListenerAdapter
-import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.database
 import java.devcolibri.itvdn.com.day3instagram.common.toUnit
 import java.devcolibri.itvdn.com.day3instagram.data.common.map
-import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.FirebaseLiveData
-import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.asFeedPost
-import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.setValueTrueOrRemove
+import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.*
+import java.devcolibri.itvdn.com.day3instagram.models.Comment
 import java.devcolibri.itvdn.com.day3instagram.models.FeedPost
 import java.devcolibri.itvdn.com.day3instagram.models.FeedPostLike
 
 class FirebaseFeedPostsRepository: FeedPostsRepository {
+
+    override fun createComment(postId: String, comment: Comment): Task<Unit> =
+        database.child("comments").child(postId).push().setValue(comment).toUnit()
+
+    override fun getComments(postId: String): LiveData<List<Comment>> =
+        FirebaseLiveData(database.child("comments").child(postId)).map {
+            it.children.map { it.asComment()!! }
+        }
 
     override fun getLikes(postId: String): LiveData<List<FeedPostLike>> =
         FirebaseLiveData(database.child("likes").child(postId)).map {

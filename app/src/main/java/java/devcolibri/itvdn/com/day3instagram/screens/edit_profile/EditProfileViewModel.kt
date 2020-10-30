@@ -7,10 +7,11 @@ import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.Task
 import java.devcolibri.itvdn.com.day3instagram.data.UsersRepository
 import java.devcolibri.itvdn.com.day3instagram.models.User
+import java.devcolibri.itvdn.com.day3instagram.screens.common.BaseViewModel
 
-class EditProfileViewModel(private val onFailureListener: OnFailureListener,
+class EditProfileViewModel(onFailureListener: OnFailureListener,
                            private val usersRepo: UsersRepository
-) : ViewModel() {
+) : BaseViewModel(onFailureListener) {
     val user: LiveData<User> = usersRepo.getUser()
 
     fun uploadAndSetUserPhoto(localImage: Uri): Task<Unit> =

@@ -8,6 +8,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.devcolibri.itvdn.com.day3instagram.models.Comment
 import java.devcolibri.itvdn.com.day3instagram.models.FeedPost
 import java.devcolibri.itvdn.com.day3instagram.models.User
 
@@ -31,3 +32,6 @@ fun DataSnapshot.asUser(): User? =
 
 fun DataSnapshot.asFeedPost(): FeedPost? =
     getValue(FeedPost::class.java)?.copy(id = key)
+
+fun DataSnapshot.asComment(): Comment? =
+    getValue(Comment::class.java)?.copy(id = key)
