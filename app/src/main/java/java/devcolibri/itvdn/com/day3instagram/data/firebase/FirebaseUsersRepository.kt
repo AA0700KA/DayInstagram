@@ -7,6 +7,8 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
+import java.devcolibri.itvdn.com.day3instagram.common.Event
+import java.devcolibri.itvdn.com.day3instagram.common.EventBus
 import java.devcolibri.itvdn.com.day3instagram.data.common.map
 import java.devcolibri.itvdn.com.day3instagram.common.task
 import java.devcolibri.itvdn.com.day3instagram.common.toUnit
@@ -28,7 +30,9 @@ class FirebaseUsersRepository : UsersRepository {
         }
 
     override fun addFollow(fromUid: String, toUid: String): Task<Unit> =
-        getFollowsRef(fromUid, toUid).setValue(true).toUnit()
+        getFollowsRef(fromUid, toUid).setValue(true).toUnit().addOnSuccessListener {
+            EventBus.publish(Event.CreateFollow(fromUid, toUid))
+        }
 
     override fun deleteFollow(fromUid: String, toUid: String): Task<Unit> =
         getFollowsRef(fromUid, toUid).removeValue().toUnit()

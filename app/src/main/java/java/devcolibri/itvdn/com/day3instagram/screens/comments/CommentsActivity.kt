@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_comments.*
 import java.devcolibri.itvdn.com.day3instagram.R
 import java.devcolibri.itvdn.com.day3instagram.models.User
 import java.devcolibri.itvdn.com.day3instagram.screens.common.BaseActivity
+import java.devcolibri.itvdn.com.day3instagram.screens.common.loadUserPhoto
 import java.devcolibri.itvdn.com.day3instagram.screens.common.setupAuthGuard
 
 class CommentsActivity : BaseActivity() {
@@ -36,6 +37,7 @@ class CommentsActivity : BaseActivity() {
             viewModel.user.observe(this, Observer {
                 it?.let {
                     mUser = it
+                    user_photo.loadUserPhoto(mUser.photo)
                 }
             })
             viewModel.comments.observe(this, Observer {

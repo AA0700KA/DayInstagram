@@ -1,28 +1,15 @@
 package java.devcolibri.itvdn.com.day3instagram.screens.profile
 
 import android.arch.lifecycle.Observer
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.util.AttributeSet
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.widget.ImageView
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_profile.*
 import java.devcolibri.itvdn.com.day3instagram.R
 import java.devcolibri.itvdn.com.day3instagram.screens.add_friends.AddFriendsActivity
 import java.devcolibri.itvdn.com.day3instagram.screens.edit_profile.EditProfileActivity
-import java.devcolibri.itvdn.com.day3instagram.models.User
-import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.FirebaseHelper
-import java.devcolibri.itvdn.com.day3instagram.common.ValueEventListenerAdapter
-import java.devcolibri.itvdn.com.day3instagram.screens.common.BaseActivity
-import java.devcolibri.itvdn.com.day3instagram.screens.common.loadUserPhoto
-import java.devcolibri.itvdn.com.day3instagram.screens.common.setupAuthGuard
-import java.devcolibri.itvdn.com.day3instagram.screens.common.setupBottomNavigation
+import java.devcolibri.itvdn.com.day3instagram.screens.common.*
 import java.devcolibri.itvdn.com.day3instagram.screens.profilesettings.ProfileSettingsActivity
 
 class ProfileActivity : BaseActivity() {
@@ -59,11 +46,14 @@ class ProfileActivity : BaseActivity() {
                 it?.let {
                     profile_image.loadUserPhoto(it.photo)
                     username_text.text = it.username
+                    followers_count_text.text = it.followers.size.toString()
+                    following_count_text.text = it.follows.size.toString()
                 }
             })
             viewModel.images.observe(this, Observer {
                 it?.let { images ->
                     mAdapter.updateImages(images)
+                    posts_count_text.text = images.size.toString()
                 }
             })
         }

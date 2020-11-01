@@ -5,6 +5,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LifecycleRegistry
 import android.arch.lifecycle.Observer
 import android.util.Log
+import java.devcolibri.itvdn.com.day3instagram.common.BaseEventListener
 import java.devcolibri.itvdn.com.day3instagram.common.Event
 import java.devcolibri.itvdn.com.day3instagram.common.EventBus
 import java.devcolibri.itvdn.com.day3instagram.data.FeedPostsRepository
@@ -18,12 +19,9 @@ import java.devcolibri.itvdn.com.day3instagram.models.NotificationType
 class NotificationsCreator(private val notificationsRepo: NotificationsRepository,
                            private val usersRepo: UsersRepository,
                            private val feedPostsRepo: FeedPostsRepository
-) : LifecycleOwner {
-    private val lifecycleRegistry = LifecycleRegistry(this)
+) : BaseEventListener() {
 
     init {
-        lifecycleRegistry.markState(Lifecycle.State.CREATED);
-        lifecycleRegistry.markState(Lifecycle.State.STARTED);
 
         EventBus.events.observe(this, Observer {
             it?.let { event ->
@@ -82,8 +80,6 @@ class NotificationsCreator(private val notificationsRepo: NotificationsRepositor
     }
 
     private fun getUser(uid: String) = usersRepo.getUser(uid)
-
-    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     companion object {
         const val TAG = "NotificationsCreator"

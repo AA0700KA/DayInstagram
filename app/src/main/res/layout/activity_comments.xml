@@ -56,7 +56,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
                 style="@style/icon"
-                android:src="@drawable/person"/>
+                android:src="@drawable/person"
+                 android:id="@+id/user_photo"/>
 
         <EditText
                 android:id="@+id/comment_text"

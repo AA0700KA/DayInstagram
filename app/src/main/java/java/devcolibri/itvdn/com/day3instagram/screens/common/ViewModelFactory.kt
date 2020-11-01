@@ -17,6 +17,7 @@ import java.devcolibri.itvdn.com.day3instagram.screens.notifications.Notificatio
 import java.devcolibri.itvdn.com.day3instagram.screens.profile.ProfileViewModel
 import java.devcolibri.itvdn.com.day3instagram.screens.profilesettings.ProfileSettingsViewModel
 import java.devcolibri.itvdn.com.day3instagram.screens.register.RegisterViewModel
+import java.devcolibri.itvdn.com.day3instagram.screens.search.SearchViewModel
 import java.devcolibri.itvdn.com.day3instagram.screens.share.ShareViewModel
 
 @Suppress("UNCHECKED_CAST")
@@ -30,6 +31,7 @@ class ViewModelFactory(private val app: InstagramApp,
         val feedPostsRepo = app.feedPostsRepo
         val authManager = app.authManager
         val notificationsRepo = app.notificationsRepo
+        val searchRepo = app.searchRepo
 
         if (modelClass.isAssignableFrom(AddFriendsViewModel::class.java)) {
             return AddFriendsViewModel(onFailureListener, usersRepo, feedPostsRepo) as T
@@ -51,6 +53,8 @@ class ViewModelFactory(private val app: InstagramApp,
             return CommentsViewModel(feedPostsRepo, usersRepo, onFailureListener) as T
         } else if (modelClass.isAssignableFrom(NotificationsViewModel::class.java)) {
             return NotificationsViewModel(notificationsRepo, onFailureListener) as T
+        } else if (modelClass.isAssignableFrom(SearchViewModel::class.java)) {
+            return SearchViewModel(searchRepo, onFailureListener) as T
         } else {
             error("Unknown view model class $modelClass")
         }

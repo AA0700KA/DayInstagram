@@ -50,9 +50,12 @@ class FirebaseFeedPostsRepository: FeedPostsRepository {
         }
     }
 
-    override fun createFeedPost(uid: String, feedPost: FeedPost): Task<Unit> =
-        database.child("feed-posts").child(uid)
-            .push().setValue(feedPost).toUnit()
+    override fun createFeedPost(uid: String, feedPost: FeedPost): Task<Unit> {
+        val reference = database.child("feed-posts").child(uid).push()
+        return reference.setValue(feedPost).toUnit().addOnSuccessListener {
+            EventBus.publish(Event.CreateFeedPost(feedPost.copy(id = reference.key)))
+        }
+    }
 
     override fun getFeedPosts(uid: String): LiveData<List<FeedPost>> =
         FirebaseLiveData(database.child("feed-posts").child(uid)).map {

@@ -1,4 +1,4 @@
-package java.devcolibri.itvdn.com.day3instagram.screens.profile
+package java.devcolibri.itvdn.com.day3instagram.screens.common
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
