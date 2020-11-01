@@ -9,20 +9,15 @@ import android.util.Log
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_share.*
 import java.devcolibri.itvdn.com.day3instagram.R
-import java.devcolibri.itvdn.com.day3instagram.models.FeedPost
 import java.devcolibri.itvdn.com.day3instagram.models.User
 import java.devcolibri.itvdn.com.day3instagram.screens.common.CameraTaker
-import java.devcolibri.itvdn.com.day3instagram.data.firebase.common.FirebaseHelper
-import java.devcolibri.itvdn.com.day3instagram.common.ValueEventListenerAdapter
 import java.devcolibri.itvdn.com.day3instagram.screens.common.BaseActivity
 import java.devcolibri.itvdn.com.day3instagram.screens.common.setupAuthGuard
 import java.devcolibri.itvdn.com.day3instagram.screens.common.showToast
-import java.devcolibri.itvdn.com.day3instagram.screens.profile.ProfileActivity
 
 class ShareActivity : BaseActivity() {
 
     private lateinit var mCameraTaker: CameraTaker
-    private lateinit var mFirebase: FirebaseHelper
     private lateinit var mViewModel: ShareViewModel
     private lateinit var mUser: User
     private lateinit var mImageUri : Uri
@@ -31,12 +26,10 @@ class ShareActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_share)
 
-//        setupBottomNavigation()
         Log.d(TAG, "onCreate: Share")
 
         setupAuthGuard {
             mViewModel = initViewModel()
-            mFirebase = FirebaseHelper(this)
 
             mCameraTaker = CameraTaker(this)
             mCameraTaker.takeCameraPicture()

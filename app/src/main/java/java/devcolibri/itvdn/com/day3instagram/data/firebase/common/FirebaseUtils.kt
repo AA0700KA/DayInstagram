@@ -19,11 +19,8 @@ val database: DatabaseReference = FirebaseDatabase.getInstance().reference
 
 val storage: StorageReference = FirebaseStorage.getInstance().reference
 
-fun currentUid(): String? = auth.currentUser?.uid
-
 fun DatabaseReference.liveData(): LiveData<DataSnapshot> =
     FirebaseLiveData(this)
 
-fun DatabaseReference.setValueTrueOrRemove(value: Boolean) =
-    if (value) setValue(true) else removeValue()
+
 

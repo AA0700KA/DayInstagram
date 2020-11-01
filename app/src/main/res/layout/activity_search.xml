@@ -46,6 +46,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/bottom_navigation_view"/>
 
+
+    <com.nhaarman.supertooltips.ToolTipRelativeLayout
+            android:id="@+id/tooltip_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="30dp"/>
+
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
             android:id="@+id/bottom_navigation_view"
             android:layout_width="match_parent"

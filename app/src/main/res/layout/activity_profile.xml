@@ -149,6 +149,12 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <com.nhaarman.supertooltips.ToolTipRelativeLayout
+            android:id="@+id/tooltip_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="30dp"/>
+
 
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
             android:id="@+id/bottom_navigation_view"
