@@ -27,11 +27,3 @@ fun DatabaseReference.liveData(): LiveData<DataSnapshot> =
 fun DatabaseReference.setValueTrueOrRemove(value: Boolean) =
     if (value) setValue(true) else removeValue()
 
-fun DataSnapshot.asUser(): User? =
-    getValue(User::class.java)?.copy(uid = key)
-
-fun DataSnapshot.asFeedPost(): FeedPost? =
-    getValue(FeedPost::class.java)?.copy(id = key)
-
-fun DataSnapshot.asComment(): Comment? =
-    getValue(Comment::class.java)?.copy(id = key)

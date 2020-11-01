@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
 import java.devcolibri.itvdn.com.day3instagram.data.common.map
 import java.devcolibri.itvdn.com.day3instagram.common.task
 import java.devcolibri.itvdn.com.day3instagram.common.toUnit
@@ -19,6 +20,11 @@ class FirebaseUsersRepository : UsersRepository {
     override fun getUsers(): LiveData<List<User>> =
         database.child("Users").liveData().map {
             it.children.map { it.asUser()!! }
+        }
+
+    override fun getUser(uid: String): LiveData<User> =
+        database.child("Users").child(uid).liveData().map {
+            it.asUser()!!
         }
 
     override fun addFollow(fromUid: String, toUid: String): Task<Unit> =
@@ -81,9 +87,6 @@ class FirebaseUsersRepository : UsersRepository {
             it.asUser()!!
         }
 
-    override fun createFeedPost(uid: String, feedPost: FeedPost): Task<Unit> =
-        database.child("feed-posts").child(uid)
-            .push().setValue(feedPost).toUnit()
 
     override fun setUserImage(uid: String, downloadUri: Uri): Task<Unit> =
         database.child("images").child(uid).push()
@@ -116,5 +119,8 @@ class FirebaseUsersRepository : UsersRepository {
         FirebaseLiveData(database.child("images").child(uid)).map {
             it.children.map { it.getValue(String::class.java)!! }
         }
+
+    private fun DataSnapshot.asUser(): User? =
+        getValue(User::class.java)?.copy(uid = key)
 
 }

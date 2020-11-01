@@ -24,7 +24,7 @@ import java.devcolibri.itvdn.com.day3instagram.screens.common.showToast
 class FeedAdapter(private val listener: Listener)
 : RecyclerView.Adapter<FeedAdapter.ViewHolder>() {
 
-    private val posts: MutableList<FeedPost> = mutableListOf()
+    private var posts: List<FeedPost> = listOf()
     private var postLikes: Map<Int, FeedPostLikes> = emptyMap()
     private val defaultPostLikes = FeedPostLikes(0, false)
 
@@ -98,7 +98,7 @@ class FeedAdapter(private val listener: Listener)
     }
 
     fun updatePosts(feedPosts : List<FeedPost>) {
-        posts.addAll(feedPosts)
+        posts = feedPosts
         notifyDataSetChanged()
     }
 

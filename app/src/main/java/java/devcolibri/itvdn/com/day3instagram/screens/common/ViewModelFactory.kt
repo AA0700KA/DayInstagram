@@ -9,24 +9,27 @@ import java.devcolibri.itvdn.com.day3instagram.screens.add_friends.AddFriendsVie
 import java.devcolibri.itvdn.com.day3instagram.screens.edit_profile.EditProfileViewModel
 import java.devcolibri.itvdn.com.day3instagram.data.firebase.FirebaseFeedPostsRepository
 import java.devcolibri.itvdn.com.day3instagram.data.firebase.FirebaseUsersRepository
+import java.devcolibri.itvdn.com.day3instagram.screens.InstagramApp
 import java.devcolibri.itvdn.com.day3instagram.screens.comments.CommentsViewModel
 import java.devcolibri.itvdn.com.day3instagram.screens.home.HomeViewModel
 import java.devcolibri.itvdn.com.day3instagram.screens.login.LoginViewModel
+import java.devcolibri.itvdn.com.day3instagram.screens.notifications.NotificationsViewModel
 import java.devcolibri.itvdn.com.day3instagram.screens.profile.ProfileViewModel
 import java.devcolibri.itvdn.com.day3instagram.screens.profilesettings.ProfileSettingsViewModel
 import java.devcolibri.itvdn.com.day3instagram.screens.register.RegisterViewModel
 import java.devcolibri.itvdn.com.day3instagram.screens.share.ShareViewModel
 
 @Suppress("UNCHECKED_CAST")
-class ViewModelFactory(private val app: Application,
+class ViewModelFactory(private val app: InstagramApp,
                        private val commonViewModel: CommonViewModel,
                        private val onFailureListener: OnFailureListener) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
-        val usersRepo by lazy { FirebaseUsersRepository() }
-        val feedPostsRepo by lazy { FirebaseFeedPostsRepository() }
-        val authManager by lazy { FirebaseAuthManager() }
+        val usersRepo = app.usersRepo
+        val feedPostsRepo = app.feedPostsRepo
+        val authManager = app.authManager
+        val notificationsRepo = app.notificationsRepo
 
         if (modelClass.isAssignableFrom(AddFriendsViewModel::class.java)) {
             return AddFriendsViewModel(onFailureListener, usersRepo, feedPostsRepo) as T
@@ -43,9 +46,11 @@ class ViewModelFactory(private val app: Application,
         } else if (modelClass.isAssignableFrom(RegisterViewModel::class.java)) {
             return RegisterViewModel(commonViewModel, app, usersRepo, onFailureListener) as T
         } else if (modelClass.isAssignableFrom(ShareViewModel::class.java)) {
-            return ShareViewModel(usersRepo, onFailureListener) as T
+            return ShareViewModel(usersRepo, feedPostsRepo, onFailureListener) as T
         } else if (modelClass.isAssignableFrom(CommentsViewModel::class.java)) {
             return CommentsViewModel(feedPostsRepo, usersRepo, onFailureListener) as T
+        } else if (modelClass.isAssignableFrom(NotificationsViewModel::class.java)) {
+            return NotificationsViewModel(notificationsRepo, onFailureListener) as T
         } else {
             error("Unknown view model class $modelClass")
         }

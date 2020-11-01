@@ -33,17 +33,16 @@ class LoginActivity : BaseActivity(), KeyboardVisibilityEventListener, TextWatch
         login_btn.setOnClickListener(this)
         create_account_text.setOnClickListener(this)
 
-        setupAuthGuard {
-            mViewModel = initViewModel()
-            mViewModel.goToHomeScreen.observe(this, Observer {
-                startActivity(Intent(this, HomeActivity::class.java))
-                finish()
-            })
-            mViewModel.goToRegisterScreen.observe(this, Observer {
-                startActivity(Intent(this, RegisterActivity::class.java))
-            })
-            mAuth = FirebaseAuth.getInstance()
-        }
+        mViewModel = initViewModel()
+        mViewModel.goToHomeScreen.observe(this, Observer {
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
+        })
+        mViewModel.goToRegisterScreen.observe(this, Observer {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        })
+        mAuth = FirebaseAuth.getInstance()
+
 
     }
 
